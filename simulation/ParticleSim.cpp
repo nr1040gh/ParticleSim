@@ -18,17 +18,16 @@ private:
     double vel_y;   //distance units / sec
 
 public:
-    Particle(double radius, double mass, double xpos=0.0, double ypos=0.0, double vel=0.0, double ang_v=0.0)
-    {
-        this->xpos = xpos;
-        this->ypos = ypos;
-        this->vel = vel;
-        this->mass = mass;
-        this->radius = radius;
-        this->ang_v = ang_v;
-        vel_x = vel * cos(ang_v);
-        vel_y = vel * sin(ang_v);
-    }
+    Particle(double radius, double mass, double xpos=0.0, double ypos=0.0, double vel=0.0, double ang_v=0.0):
+    xpos(xpos),
+    ypos(ypos),
+    vel(vel),
+    mass(mass),
+    radius(radius),
+    ang_v(ang_v),
+    vel_x(vel * cos(ang_v)),
+    vel_y(vel * sin(ang_v))
+    {}
 
     void setXpos(double newPos)
     {
@@ -332,13 +331,13 @@ void checkWallcollision(Box &box, Particle &p)
 
 }
 
-void runSim(Box &box, Particle &p, double simT, double deltaT)
+void runSim(Box &box, Particle &p, double simT, double deltaT, double fps)
 {
     double elapsed_time = 0;
 
     std::ofstream results;
     results.open("../results/results.csv");
-    results << box.getLeftWall() << "," << box.getRightWall() << "," << box.getCeiling() << "," << box.getFloor() << "\n"; 
+    results << box.getLeftWall() << "," << box.getRightWall() << "," << box.getCeiling() << "," << box.getFloor() << "," << fps << "\n"; 
     results << p.getXpos() << "," << p.getYpos() << "," << p.getRadius() << "\n";
 
     while (elapsed_time <= simT)
@@ -358,11 +357,13 @@ void runSim(Box &box, Particle &p, double simT, double deltaT)
 int main()
 {
     Box box(30);
-    Particle p(2.0, 0.0, 3.0, 3.0, 5.0, (M_PI/6.0));
+    Particle p(0.5, 0.0, 3.0, 3.0, 20.0, (M_PI/6.0));
     double simT = 15.0;
-    double deltaT = 0.1;
+    double fps = 60;
+    double deltaT = 1 / fps;
+    std::cout << deltaT << std::endl;
 
-    runSim(box,p,simT,deltaT);
+    runSim(box,p,simT,deltaT,fps);
 
     return 0;
 

@@ -2,8 +2,10 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import csv
 import os
+import cv2
 from PIL import Image
 import io
+import numpy as np
 
 
 #https://stackoverflow.com/questions/57316491/how-to-convert-matplotlib-figure-to-pil-image-object-without-saving-image
@@ -16,9 +18,10 @@ def fig2img(fig):
     img = Image.open(buf)
     return img
 
+
+
 sim_file = os.path.join(os.pardir, 'results','results.csv')
-outfolder = os.path.join(os.pardir, 'images')
-outgif = os.path.join(os.pardir, 'gifs','simulation.gif')
+outvid = os.path.join(os.pardir, 'videos','simulation.avi')
 
 fig, ax = plt.subplots()
 ax.set_box_aspect(1)
@@ -36,7 +39,9 @@ with open(sim_file, 'r') as read_obj:
             boxright = int(row[1])
             boxtop = int(row[2])
             boxbot = int(row[3])
+            fps = float(row[4])
 
+            
         else:
             x = float(row[0])
             y = float(row[1])
@@ -50,23 +55,22 @@ with open(sim_file, 'r') as read_obj:
 
             ax.set_xlim(boxleft, boxright)
             ax.set_ylim(boxbot, boxtop)
-
-            outfile = os.path.join(outfolder,str(frame_count)+'.png')
-            #plt.show()
-            ###plt.savefig(outfile)
-
-            images.append(Image.open(outfile))
+            
             img = fig2img(fig)
+
+            if frame_count == 1:
+                fourcc = cv2.VideoWriter_fourcc(*'DIVX')    
+                video = cv2.VideoWriter(outvid,fourcc, fps, img.size)
+            
+
+
+            video.write(cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR))
             images.append(img)
 
             ax.cla()
 
 
         frame_count += 1
-
         
-images[0].save(outgif,
-               save_all = True, append_images = images[1:], 
-               optimize = False, duration = len(images)*0.1)
-
-    
+video.release()
+        
