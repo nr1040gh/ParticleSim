@@ -79,42 +79,42 @@ public:
         ypos += vel_y * deltaT;
     }
 
-    double getXpos()
+    double getXpos() const
     {
         return xpos;
     }
 
-    double getYpos()
+    double getYpos() const
     {
         return ypos;
     }
 
-    double getVel()
+    double getVel() const
     {
         return vel;
     }
 
-    double getVel_x()
+    double getVel_x() const
     {
         return vel_x;
     }
 
-    double getVel_y()
+    double getVel_y() const
     {
         return vel_y;
     }
 
-    double getAng()
+    double getAng() const
     {
         return ang_v;
     }
 
-    double getMass()
+    double getMass() const
     {
         return mass;
     }
 
-    double getRadius()
+    double getRadius() const
     {
         return radius;
     }
@@ -331,6 +331,15 @@ void checkWallcollision(Box &box, Particle &p)
 
 }
 
+
+//https://www.vobarian.com/collisions/2dcollisions2.pdf
+void particleCollision2D(Particle &p1, Particle &p2)
+{
+
+}
+
+
+
 void runSim(Box &box, Particle &p, double simT, double deltaT, double fps)
 {
     double elapsed_time = 0;
@@ -357,7 +366,7 @@ void runSim(Box &box, Particle &p, double simT, double deltaT, double fps)
 int main()
 {
     Box box(30);
-    Particle p(0.5, 0.0, 3.0, 3.0, 20.0, (M_PI/6.0));
+    Particle p(0.5, 0.0, 3.0, 3.0, 9.0, (5.0*M_PI/4.02));
     double simT = 15.0;
     double fps = 60;
     double deltaT = 1 / fps;
