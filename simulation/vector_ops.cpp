@@ -1,5 +1,6 @@
 #include <vector>
 #include <cmath>
+#include "particle.hpp"
 #include "vector_ops.hpp"
 
 using namespace std;
@@ -8,7 +9,7 @@ using namespace std;
 namespace vector_ops{
 
 //https://www.vobarian.com/collisions/2dcollisions2.pdf
-vector getNormalVector(Particle p1, Particle p2)
+vector<double> getVector(Particle p1, Particle p2)
 {
     //x component and y component
     double xcomp, ycomp;

@@ -1,13 +1,14 @@
 #ifndef VECTOR_OPS_HPP
 #define VECTOR_OPS_HPP
 #include <vector>
+#include "particle.hpp"
 
 
 namespace vector_ops
 {
 
 
-std::vector<double> getNormalVector(Particle p1, Particle p2);
+std::vector<double> getVector(Particle p1, Particle p2);
 
 
 /**
